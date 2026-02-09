@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="MahizFzx Tools - Professional Mobile Repair & Hacking Tools">
+    <meta name="author" content="Mizanur Rahman Mahim">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MahizFzx Tools">
+    <meta name="theme-color" content="#6a11cb">
+
+    <title>MahizFzx Tools</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        /* -----------------------------------------------------------
+           RESET & CORE VARIABLES
+        ----------------------------------------------------------- */
+        :root {
+            --primary-grad: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            --bg-light: #f0f2f5;
+            --text-light: #1f2937;
+            --card-light: #ffffff;
+            --shadow-light: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
+            --shadow-inset-light: inset 5px 5px 10px #d1d9e6, inset -5px -5px 10px #ffffff;
+            
+            --bg-dark: #121212;
+            --text-dark: #e0e0e0;
+            --card-dark: #1e1e1e;
+            --shadow-dark: 5px 5px 10px #0a0a0a, -5px -5px 10px #323232;
+            --shadow-inset-dark: inset 5px 5px 10px #0a0a0a, inset -5px -5px 10px #323232;
+
+            --glass: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --blur: 15px;
+            --anim-speed: 0.3s;
+        }
+
+        [data-theme="dark"] {
+            --bg-light: var(--bg-dark);
+            --text-light: var(--text-dark);
+            --card-light: var(--card-dark);
+            --shadow-light: var(--shadow-dark);
+            --shadow-inset-light: var(--shadow-inset-dark);
+            --glass: rgba(0, 0, 0, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            transition: background-color var(--anim-speed), color var(--anim-speed);
+            overflow-x: hidden;
+            padding-bottom: 90px; /* Space for bottom nav */
+        }
+
+        /* -----------------------------------------------------------
+           HEADER SECTION
+        ----------------------------------------------------------- */
+        header {
+            background: var(--primary-grad);
+            padding: 20px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            box-shadow: 0 10px 30px rgba(106, 17, 203, 0.3);
+            position: relative;
+            z-index: 100;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.9);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            padding-left: 45px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            fill: #6a11cb;
+        }
+
+        /* -----------------------------------------------------------
+           MARQUEE DISCLAIMER
+        ----------------------------------------------------------- */
+        .marquee-container {
+            background: var(--glass);
+            backdrop-filter: blur(var(--blur));
+            border-bottom: 1px solid var(--glass-border);
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            margin-top: -15px;
+            z-index: 90;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 20s linear infinite;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        @keyframes marquee {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        /* -----------------------------------------------------------
+           TOOLS GRID (3D Cards)
+        ----------------------------------------------------------- */
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-light);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            background: var(--card-light);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        /* 3D Hover Effect */
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 12px 12px 20px rgba(0,0,0,0.1), -12px -12px 20px rgba(255,255,255,0.5);
+        }
+
+        .tool-card:active {
+            transform: scale(0.98);
+            box-shadow: var(--shadow-inset-light);
+        }
+
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            background: var(--primary-grad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+
+        .tool-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+
+        .tool-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .tool-desc {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .open-btn {
+            background: var(--bg-light);
+            color: #6a11cb;
+            border: 2px solid #6a11cb;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .tool-card:hover .open-btn {
+            background: #6a11cb;
+            color: white;
+        }
+
+        /* -----------------------------------------------------------
+           BOTTOM NAVIGATION (App Style)
+        ----------------------------------------------------------- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        [data-theme="dark"] .bottom-nav {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            opacity: 1;
+            color: #6a11cb;
+            transform: translateY(-2px);
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 2px;
+            fill: currentColor;
+        }
+
+        .nav-text {
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* -----------------------------------------------------------
+           MODALS / POPUPS
+        ----------------------------------------------------------- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal-active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-card {
+            background: var(--card-light);
+            width: 85%;
+            max-width: 350px;
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .modal-active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .modal-close svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-light);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: var(--primary-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Share Modal Specifics */
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .share-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .share-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+            background: #f0f0f0;
+        }
+
+        .share-btn:hover { transform: scale(1.1); }
+        .share-btn.whatsapp { background: #25D366; }
+        .share-btn.messenger { background: #00B2FF; }
+        .share-btn.discord { background: #5865F2; }
+        .share-btn.copy { background: #777; }
+        
+        .share-btn svg { width: 22px; height: 22px; fill: white; }
+
+        /* Author Modal Specifics */
+        .author-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid #6a11cb;
+            margin: 0 auto 15px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #6a11cb;
+            overflow: hidden;
+        }
+
+        /* Feedback Form */
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.1);
+            background: var(--bg-light);
+            color: var(--text-light);
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            background: var(--primary-grad);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+        }
+
+        /* Footer Copyright */
+        .footer-info {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <h1>MahizFzx Tools</h1>
+            </div>
+            <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">
+                <svg id="icon-sun" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.93c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0l-1.42 1.42c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.42-1.42zm13.31 13.31c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0l-1.42 1.42c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.42-1.42zM4.93 19.07c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l1.42 1.42c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41l-1.42-1.42zm13.31-13.31c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41l1.42 1.42c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41l-1.42-1.42z"/></svg>
+            </button>
+        </div>
+        <div class="search-container">
+            <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search tools..." onkeyup="filterTools()">
+        </div>
+    </header>
+<br>
+    <div class="marquee-container">
+        <div class="marquee-content">
+            ⚠️ Disclaimer: All tools are for educational and repair purposes only. MahizFzx is not responsible for any misuse. | Developed by MahimFzx | Mobile Technician & Developer ⚠️
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="section-title">
+            <svg style="width:24px;height:24px;fill:var(--text-light)" viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
+            Available Tools
+        </div>
+        
+        <div class="tools-grid" id="toolsContainer">
+            </div>
+
+        <div class="footer-info">
+            &copy; 2026 MahizFzx Tools. <br> Made with By Mizanur Rahman Mahim
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="scrollToTop()">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span class="nav-text">Home</span>
+        </button>
+        <button class="nav-item" onclick="openModal('shareModal')">
+            <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+            <span class="nav-text">Share</span>
+        </button>
+        <button class="nav-item" onclick="openModal('authorModal')">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+            <span class="nav-text">Author</span>
+        </button>
+        <button class="nav-item" onclick="openModal('feedbackModal')">
+            <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/></svg>
+            <span class="nav-text">Feedback</span>
+        </button>
+    </nav>
+
+    <div id="shareModal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('shareModal')"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+            <h2 class="modal-title">Share App</h2>
+            <div id="qrcode"></div>
+            <p style="font-size:0.8rem; margin-top:5px;">Scan to open</p>
+            <div class="share-icons">
+                <button class="share-btn whatsapp" onclick="shareTo('whatsapp')"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></button>
+                <button class="share-btn messenger" onclick="shareTo('messenger')"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.55 5.42 3.96 7.12-.13.88-.66 2.66-.75 2.97-.08.3.16.54.43.37 1.87-1.18 4.09-2.34 4.88-2.61.48.13.98.2 1.48.2 5.52 0 10-4.03 10-9S17.52 2 12 2zm1.19 12.37l-2.6-2.77-5.09 2.77 5.59-5.94 2.67 2.76 5.03-2.76-5.6 5.94z"/></svg></button>
+                <button class="share-btn copy" onclick="shareTo('copy')"><svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="authorModal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('authorModal')"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+            <div class="author-avatar">M</div>
+            <h2 class="modal-title" style="font-size: 1.2rem;">Mizanur Rahman Mahim</h2>
+            <p style="color:var(--text-light); font-size:0.9rem; margin-bottom:10px;">Mobile Technician & Developer</p>
+            <p style="font-size:0.8rem; opacity:0.8;">Expert in Phone Schematics, UI/UX, and Custom Tool Development. Passionate about innovation in repair technology.</p>
+            <div style="margin-top:20px; font-weight:bold; color:#6a11cb">mahimfzx@gmail.com</div>
+        </div>
+    </div>
+
+    <div id="feedbackModal" class="modal-overlay">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal('feedbackModal')"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+            <h2 class="modal-title">Send Feedback</h2>
+            <form onsubmit="sendFeedback(event)">
+                <div class="form-group">
+                    <input type="text" id="fbSubject" class="form-input" placeholder="Subject" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="fbMessage" class="form-textarea" rows="4" placeholder="Your message..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        /* -------------------------------------------------------------
+           IMPORTANT: CONFIGURATION AREA
+           Add your new tools here in this list!
+        ------------------------------------------------------------- */
+        const toolsConfig = [
+            {
+                name: "Demo Tool 01",
+                file: "tool1.html",
+                desc: "A sample tool to demonstrate the UI.",
+                icon: "M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 9c2.7 0 5.8 1.29 6 2v1H6v-.99c.2-.72 3.3-2.01 6-2.01m0-11C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"
+            },
+            {
+                name: "XAUUSD Bot",
+                file: "xauusd.html",
+                desc: "Forex Scalping Bot Logic visualization.",
+                icon: "M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"
+            },
+            {
+                name: "IP Checker",
+                file: "ipcheck.html",
+                desc: "Check your public IP and location details.",
+                icon: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+            }
+            // Add more tools here by copying the block above!
+        ];
+
+        // -------------------------------------------------------------
+        // Core Logic
+        // -------------------------------------------------------------
+        
+        // 1. Render Tools on Load
+        function renderTools(filterText = "") {
+            const container = document.getElementById('toolsContainer');
+            container.innerHTML = ""; // Clear existing
+
+            toolsConfig.forEach(tool => {
+                // Filter logic
+                if (tool.name.toLowerCase().includes(filterText.toLowerCase())) {
+                    const card = document.createElement('a');
+                    card.className = 'tool-card';
+                    card.href = tool.file;
+                    
+                    card.innerHTML = `
+                        <div class="tool-icon">
+                            <svg viewBox="0 0 24 24"><path d="${tool.icon}"/></svg>
+                        </div>
+                        <div class="tool-name">${tool.name}</div>
+                        <div class="tool-desc">${tool.desc}</div>
+                        <div class="open-btn">Open Tool</div>
+                    `;
+                    container.appendChild(card);
+                }
+            });
+
+            if (container.innerHTML === "") {
+                container.innerHTML = `<div style="text-align:center; width:100%; grid-column:1/-1; color:gray;">No tools found matching "${filterText}"</div>`;
+            }
+        }
+
+        // 2. Search Function
+        function filterTools() {
+            const input = document.getElementById('searchInput').value;
+            renderTools(input);
+        }
+
+        // 3. Theme Toggle (Light/Dark)
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load Theme Preference
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.setAttribute('data-theme', savedTheme);
+            }
+            renderTools();
+            generateQRCode();
+        };
+
+        // 4. Modal Logic
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('modal-active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('modal-active');
+        }
+
+        // Close modal if clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.classList.remove('modal-active');
+            }
+        }
+
+        // 5. Scroll To Top (Home Button)
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // 6. QR Code Generator
+        function generateQRCode() {
+            const currentUrl = window.location.href;
+            new QRCode(document.getElementById("qrcode"), {
+                text: currentUrl,
+                width: 128,
+                height: 128,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+
+        // 7. Share Logic
+        function shareTo(platform) {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent("Check out MahizFzx Tools! Best mobile repair & tech tools.");
+            
+            if (platform === 'whatsapp') {
+                window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+            } else if (platform === 'messenger') {
+                // Messenger strictly uses native sharing or link copying usually, 
+                // but we can try the fb-messenger protocol if app installed
+                window.location.href = `fb-messenger://share/?link=${url}`; 
+                // Fallback often needed for web
+            } else if (platform === 'copy') {
+                navigator.clipboard.writeText(window.location.href);
+                alert("Link copied to clipboard!");
+            }
+        }
+
+        // 8. Feedback Form
+        function sendFeedback(e) {
+            e.preventDefault();
+            const subject = document.getElementById('fbSubject').value;
+            const message = document.getElementById('fbMessage').value;
+            const mailtoLink = `mailto:mahimfzx@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+            window.location.href = mailtoLink;
+            closeModal('feedbackModal');
+        }
+    </script>
+</body>
+</html>
